@@ -61,6 +61,8 @@ public class ExternalFileFieldReloader extends AbstractSolrEventListener {
     super(core);
     datadir = core.getDataDir();
 
+    log.info(String.format("Configuring close hook in ExternalFileFieldReloader for core %s", core));
+
     // add close hook to clear the internal cache for the last
     // active searcher
     core.addCloseHook(new CloseHook() {

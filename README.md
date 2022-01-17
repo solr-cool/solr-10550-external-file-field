@@ -20,8 +20,13 @@ docker run -it -v $(pwd):$(pwd) -w $(pwd) maven:3.8.4-jdk-11 mvn clean verify
 
 ## Patching the target Solr
 
-Copy all files from `target/classes` into your Solr installation's
-`solr-webapp/webapp/WEB-INF/classes` directory. You could also build
+* Either copy all files from `target/classes` into your Solr installation's
+`solr-webapp/webapp/WEB-INF/classes` directory.
+
+* Or copy the `target/solr-10550-0-SNAPSHOT.jar` into your Solr installation's
+`solr-webapp/webapp/WEB-INF/lib` directory.
+
+You could also build
 a patched Docker image:
 
 ```shell

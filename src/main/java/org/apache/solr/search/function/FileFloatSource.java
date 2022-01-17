@@ -80,6 +80,8 @@ public class FileFloatSource extends ValueSource {
     this.keyField = keyField;
     this.defVal = defVal;
     this.dataDir = datadir;
+
+    log.info(String.format("Setting up modified FileFloatSource for field %s", field.getName()));
   }
 
   @Override
@@ -143,6 +145,7 @@ public class FileFloatSource extends ValueSource {
    * Values are lazily loaded next time getValues() is called.
    */
   public static void resetCacheFor(IndexReader reader){
+    log.info(String.format("Resetting cache for reader %s", reader));
     floatCache.resetCacheFor(reader);
   }
 
