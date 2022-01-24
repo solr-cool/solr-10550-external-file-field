@@ -96,9 +96,13 @@ public class ExternalFileFieldReloader extends AbstractSolrEventListener {
       cacheFieldSources(newSearcher.getSchema());
     }
     IndexReader reader = newSearcher.getIndexReader();
-    for (FileFloatSource fieldSource : fieldSources) {
-      fieldSource.refreshCache(reader);
-    }
+
+    // PATCH: Load files in parallel
+    fieldSources.stream().parallel().forEach(fs -> fs.refreshCache(reader));
+//    for (FileFloatSource fieldSource : fieldSources) {
+//      log.info(String.format("[eff-patch:%s] Refreshing cache FileFloatSource cache for field %s", Integer.toHexString(newSearcher.hashCode()), fieldSource));
+//      fieldSource.refreshCache(reader);
+//    }
 
     // if we're in a new searcher event, clear the internal cache for
     // the last active searcher

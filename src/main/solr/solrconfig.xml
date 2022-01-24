@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<config>
+  <luceneMatchVersion>8.11.1</luceneMatchVersion>
+  <dataDir>${solr.data.dir:}</dataDir>
+  <directoryFactory class="${solr.directoryFactory:solr.StandardDirectoryFactory}" name="DirectoryFactory" />
+  <indexConfig>
+    <lockType>${solr.lock.type:native}</lockType>
+  </indexConfig>
+  <updateHandler class="solr.DirectUpdateHandler2">
+    <autoCommit>
+      <maxTime>${solr.autoCommit.maxTime:180000}</maxTime>
+      <openSearcher>false</openSearcher>
+    </autoCommit>
+    <!--
+    <autoSoftCommit>
+      <maxTime>${solr.autoSoftCommit.maxTime:60000}</maxTime>
+    </autoSoftCommit>
+  -->
+  </updateHandler>
+  <query>
+    <maxBooleanClauses>${solr.max.booleanClauses:5000}</maxBooleanClauses>
+    <listener event="newSearcher" class="org.apache.solr.schema.ExternalFileFieldReloader"/>
+    <listener event="firstSearcher" class="org.apache.solr.schema.ExternalFileFieldReloader"/>
+  </query>
+  <requestHandler class="solr.SearchHandler" default="true" name="/select">
+    <lst name="defaults">
+      <str name="echoParams">explicit</str>
+      <int name="rows">10</int>
+      <str name="fl">*</str>
+      <str name="q.op">AND</str>
+    </lst>
+  </requestHandler>
+</config>
